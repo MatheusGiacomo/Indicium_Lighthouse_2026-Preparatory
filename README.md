@@ -56,9 +56,8 @@ Demonstrar a evolução técnica nos pilares exigidos pela Indicium:
 ---
 
 ## 📧 Contato
-Desenvolvido por **[SEU NOME AQUI]**.
-- [LinkedIn](SEU_LINK_DO_LINKEDIN)
-- [Portfólio/Site](SEU_LINK_OPCIONAL)
+Desenvolvido por **Matheus Di Giacomo**.
+- [LinkedIn](https://www.linkedin.com/in/matheusgiacomo/?locale=pt)
 
 ---
 > *"In God we trust, all others must bring data."* — W. Edwards Deming
