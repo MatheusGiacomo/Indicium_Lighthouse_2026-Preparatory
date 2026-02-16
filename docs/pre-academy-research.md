@@ -77,6 +77,8 @@ O foco aqui é a **análise**. São sistemas voltados para consultas complexas e
 ### 💡 Modern Data Stack
 Na consultoria, o Engenheiro de Dados utiliza processos de **ELT** para extrair dados de sistemas **OLTP** (Postgres, MySQL, APIs) e carregá-los em um ambiente **OLAP** (Snowflake, BigQuery). Uma vez no ambiente OLAP, usamos o **dbt** para transformar esses dados brutos em modelos dimensionais que facilitam a vida do analista de BI.
 
+---
+
 ### 🧊 O Conceito de Cubo OLAP
 Diferente de uma tabela 2D (linhas e colunas), um **Cubo OLAP** é uma estrutura multidimensional que permite visualizar dados através de várias "dimensões".
 
@@ -117,3 +119,45 @@ Antigamente, manter sistemas OLAP exigia servidores gigantescos e caros. Hoje, a
 * **Arquitetura Desacoplada:** Ferramentas como **Snowflake** e **BigQuery** separam o Armazenamento (Storage) do Processamento (Compute). Você paga apenas pelo que usa.
 * **Elasticidade:** Se você precisa rodar uma query em 1 bilhão de linhas às 9h da manhã, a nuvem escala 100 servidores para você e depois os desliga.
 * **Diferencial técnico:** No Cloud OLAP moderno, a distinção entre ROLAP e MOLAP ficou tênue, pois o processamento em nuvem é tão rápido que muitas vezes não precisamos mais "pré-calcular" cubos rígidos.
+
+---
+
+## 🔄 Integração de Dados: ETL vs. ELT
+
+A integração de dados é o processo de combinar dados de múltiplas fontes em um repositório centralizado. A principal diferença entre ETL e ELT reside na ordem em que os dados são transformados e onde esse processamento ocorre.
+
+### 1. ETL (Extract, Transform, Load)
+No modelo tradicional, os dados são transformados em um servidor secundário (staging area) antes de serem carregados no destino final.
+
+* **Funcionamento:** Os dados são extraídos das fontes, passam por um processo de limpeza e formatação fora do banco de dados de destino e, somente após estarem "prontos", são carregados no Data Warehouse.
+* **Características Principais:**
+    * **Processamento Externo:** Depende de motores de processamento dedicados para a transformação.
+    * **Conformidade e Privacidade:** Ideal para remover dados sensíveis (LGPD/GDPR) antes mesmo de chegarem ao armazenamento.
+    * **Estrutura Rígida:** Requer que o esquema de destino seja definido antes da carga (Schema-on-write).
+* **Uso Ideal:** Ambientes com dados altamente estruturados e limitações de processamento no banco de dados de destino (Sistemas On-premise).
+
+### 2. ELT (Extract, Load, Transform)
+O modelo moderno, impulsionado pela computação em nuvem, onde o dado bruto é carregado diretamente e a transformação utiliza o poder do destino.
+
+* **Funcionamento:** Os dados são extraídos e carregados imediatamente no Data Warehouse ou Data Lake. A transformação ocorre internamente, utilizando SQL ou linguagens de processamento distribuído.
+* **Características Principais:**
+    * **Alta Escalabilidade:** Utiliza a elasticidade de Cloud Data Warehouses (como Snowflake e BigQuery).
+    * **Flexibilidade:** Permite carregar dados brutos sem uma estrutura pré-definida (Schema-on-read), facilitando análises futuras.
+    * **Velocidade de Ingestão:** O processo de carga é muito mais rápido, pois não há o gargalo da transformação prévia.
+* **Uso Ideal:** Big Data, Modern Data Stack e projetos que exigem agilidade na disponibilização de novos dados.
+
+---
+
+### 📊 Comparativo Técnico
+
+| Característica | ETL (Tradicional) | ELT (Moderno) |
+| :--- | :--- | :--- |
+| **Sequência** | Extrair → Transformar → Carregar | Extrair → Carregar → Transformar |
+| **Local de Transformação** | Servidor de Processamento Independente | No próprio Data Warehouse/Lake |
+| **Tempo de Carga** | Mais lento (devido à transformação) | Mais rápido (carga direta) |
+| **Volume de Dados** | Ideal para volumes pequenos/médios | Projetado para Petabytes e Big Data |
+| **Manutenção** | Alta (mudanças na fonte quebram o fluxo) | Baixa (o dado bruto está sempre disponível) |
+
+*Fonte das informações: Indicium Academy, AWS, Databricks.*
+
+---
