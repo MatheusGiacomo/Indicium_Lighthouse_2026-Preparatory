@@ -213,4 +213,4 @@ Uma arquitetura híbrida que combina os melhores elementos do Data Warehouse e d
 
 *Fontes: IBM, Microsoft Azure, Databricks.*
 
----
+![Data Warehouse, lake e lakehouse](images/DW-DL-DLH.png)
