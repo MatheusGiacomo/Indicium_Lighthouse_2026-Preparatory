@@ -120,6 +120,8 @@ Antigamente, manter sistemas OLAP exigia servidores gigantescos e caros. Hoje, a
 * **Elasticidade:** Se você precisa rodar uma query em 1 bilhão de linhas às 9h da manhã, a nuvem escala 100 servidores para você e depois os desliga.
 * **Diferencial técnico:** No Cloud OLAP moderno, a distinção entre ROLAP e MOLAP ficou tênue, pois o processamento em nuvem é tão rápido que muitas vezes não precisamos mais "pré-calcular" cubos rígidos.
 
+![Arquitetura OLAP e OLTP](images/OLAP-OLTP.png)
+
 ---
 
 ## 🔄 Integração de Dados: ETL vs. ELT
@@ -159,5 +161,7 @@ O modelo moderno, impulsionado pela computação em nuvem, onde o dado bruto é 
 | **Manutenção** | Alta (mudanças na fonte quebram o fluxo) | Baixa (o dado bruto está sempre disponível) |
 
 *Fonte das informações: Indicium Academy, AWS, Databricks.*
+
+![Arquitetura ETL e ELT](images/ETL-ELT.png)
 
 ---
