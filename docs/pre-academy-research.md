@@ -150,7 +150,7 @@ O modelo moderno, impulsionado pela computação em nuvem, onde o dado bruto é 
 
 ---
 
-### 📊 Comparativo Técnico
+### 📊 Tabela Comparativa
 
 | Característica | ETL (Tradicional) | ELT (Moderno) |
 | :--- | :--- | :--- |
@@ -163,5 +163,54 @@ O modelo moderno, impulsionado pela computação em nuvem, onde o dado bruto é 
 *Fonte das informações: Indicium Academy, AWS, Databricks.*
 
 ![Arquitetura ETL e ELT](images/ETL-ELT.png)
+
+---
+
+## 🏗️ Repositórios de Dados: Warehouse vs. Lake vs. Lakehouse
+
+A escolha da arquitetura de armazenamento define como uma empresa consegue processar, governar e extrair valor de seus ativos de dados.
+
+### 1. Data Warehouse (DW)
+Um repositório centralizado projetado especificamente para análise e relatórios de negócios.
+
+* **Funcionamento:** Armazena dados que já foram extraídos, limpos e transformados (processo tradicional de ETL). Ele utiliza uma estrutura de "schema-on-write", o que significa que os dados devem ser organizados em um formato pré-definido antes de serem inseridos.
+* **Características Principais:**
+    * **Dados Estruturados:** Foca em dados altamente processados e organizados em tabelas.
+    * **Performance Analítica:** Otimizado para consultas SQL complexas e rápidas.
+    * **Governança Forte:** Oferece alto controle sobre quem acessa o quê e garante a integridade dos dados.
+* **Uso Ideal:** Business Intelligence (BI), relatórios executivos e análise de dados históricos estruturados.
+
+### 2. Data Lake
+Um repositório vasto que armazena dados em seu formato bruto e nativo.
+
+* **Funcionamento:** Aceita qualquer tipo de dado (estruturado, semiestruturado ou não estruturado) sem a necessidade de tratamento prévio. Ele utiliza o conceito de "schema-on-read", onde a estrutura é aplicada apenas quando o dado é lido para análise.
+* **Características Principais:**
+    * **Versatilidade:** Armazena desde logs de servidores e arquivos CSV até imagens e vídeos.
+    * **Baixo Custo:** Geralmente utiliza armazenamento em nuvem de baixo custo para grandes volumes de dados.
+    * **Escalabilidade:** Projetado para lidar com petabytes de informações de forma flexível.
+* **Uso Ideal:** Ciência de Dados, Machine Learning, Big Data e armazenamento de longo prazo de dados brutos.
+
+### 3. Data Lakehouse
+Uma arquitetura híbrida que combina os melhores elementos do Data Warehouse e do Data Lake em uma única plataforma.
+
+* **Funcionamento:** Implementa estruturas de dados e funções de gerenciamento de dados similares às de um DW (como transações ACID) diretamente sobre o armazenamento de baixo custo de um Data Lake.
+* **Características Principais:**
+    * **Unificação:** Elimina a necessidade de manter sistemas separados para BI e Machine Learning.
+    * **Suporte a Transações ACID:** Garante que múltiplas partes possam ler e escrever dados simultaneamente sem erros.
+    * **Esquemas Abertos:** Utiliza formatos de arquivos abertos (como Parquet ou Delta Lake) que podem ser lidos por diversas ferramentas.
+* **Uso Ideal:** Empresas que buscam uma "fonte única da verdade" para engenharia de dados, ciência de dados e análises em tempo real.
+
+---
+
+### 📊 Tabela Comparativa
+
+| Característica | Data Warehouse | Data Lake | Data Lakehouse |
+| :--- | :--- | :--- | :--- |
+| **Tipo de Dado** | Estruturado apenas | Estruturado e não estruturado | Todos os tipos (unificado) |
+| **Esquema** | Schema-on-write (Rígido) | Schema-on-read (Flexível) | Gerenciamento de esquema (Híbrido) |
+| **Custo** | Relativamente alto | Baixo | Baixo (preço de lake) |
+| **Público Principal** | Analistas de BI e Negócios | Cientistas de Dados | Engenheiros, Analistas e Cientistas |
+
+*Fontes: IBM, Microsoft Azure, Databricks.*
 
 ---
