@@ -293,4 +293,6 @@ As "Dimensões que Mudam Lentamente" descrevem como o sistema lida com alteraç�
 
 *Fontes: Microsoft Learn, IBM Architecture, dbt Labs Documentation, The Data Warehouse Toolkit (Kimball).*
 
+![Star Schema e Snowflake Schema](images/star-snowflake.png)
+
 ---
