@@ -214,3 +214,83 @@ Uma arquitetura híbrida que combina os melhores elementos do Data Warehouse e d
 *Fontes: IBM, Microsoft Azure, Databricks.*
 
 ![Data Warehouse, lake e lakehouse](images/DW-DL-DLH.png)
+
+---
+
+## 🏗️ Modelagem Dimensional: Metodologia Kimball e Estruturas de Dados
+
+A modelagem dimensional é o processo de organizar dados para facilitar a análise e melhorar a performance de consultas em ambientes OLAP. O objetivo é criar um "mapa" que os usuários de negócio consigam entender intuitivamente.
+
+### 1. Metodologia Kimball (The Kimball Group)
+Desenvolvida por Ralph Kimball, esta metodologia adota uma abordagem "bottom-up" (de baixo para cima), focando nos processos de negócio para construir o Data Warehouse.
+
+* **Os 4 Passos do Design Dimensional:**
+    1. **Selecionar o Processo de Negócio:** (Ex: Vendas, Pedidos, Logística).
+    2. **Declarar o Grão:** Definir o nível de detalhe (Ex: Uma linha por item vendido por cupom fiscal).
+    3. **Identificar as Dimensões:** Os substantivos da análise (Quem, Onde, Quando, O quê).
+    4. **Identificar as Fatos:** As métricas quantitativas (Quanto, Valor, Quantidade).
+* **Conceito Chave:** A modelagem deve ser centrada na facilidade de uso pelo analista e na performance de leitura.
+
+### 2. Star Schema (Esquema Estrela)
+É a arquitetura mais simples e amplamente utilizada em Modern Data Stack.
+
+* **Estrutura:** Uma tabela **Fato** central conectada diretamente a várias tabelas **Dimensão**.
+* **Características:**
+    * **Desnormalização:** As dimensões não são normalizadas, o que significa que há redundância de dados para evitar JOINS complexos.
+    * **Performance:** Excelente para consultas analíticas, pois exige menos junções entre tabelas.
+    * **Uso Ideal:** Praticamente todos os Data Warehouses modernos (Snowflake, BigQuery).
+
+#### 1. A Tabela Fato (O "O quê" e "Quanto")
+A Tabela Fato é o centro do Star Schema. Ela registra os eventos quantitativos de um processo de negócio.
+
+* **Granularidade (Grain):** É a definição do que uma única linha na tabela representa. Exemplo: "Uma linha por item vendido em cada transação". Definir o grão é o passo mais crítico da modelagem.
+* **Chaves Estrangeiras (FKs):** A Fato não contém nomes ou descrições; ela contém IDs que se conectam às Dimensões.
+* **Tipos de Medidas (Fatos):**
+    * **Aditivas:** Podem ser somadas em todas as dimensões (Ex: Valor total da venda).
+    * **Semi-aditivas:** Podem ser somadas em algumas dimensões, mas não em todas (Ex: Saldo bancário pode ser somado por região, mas não por tempo/datas).
+    * **Não aditivas:** Geralmente proporções ou razões que não podem ser somadas (Ex: Margem de lucro unitária).
+
+#### 2. Tabelas Dimensão (O "Quem", "Onde" e "Quando")
+As Dimensões fornecem o contexto descritivo para os fatos. Elas são "chatas e largas", contendo muitas colunas de texto.
+
+* **Atributos:** São as colunas de texto usadas para filtrar e agrupar nos relatórios (Ex: Nome do Produto, Categoria, Marca, Cor).
+* **Surrogate Keys (Chaves Substitutas):** Em vez de usar o ID original do sistema (Natural Key), usa-se uma chave numérica simples criada pelo Data Warehouse. Isso é essencial para lidar com SCDs e performance.
+* **Desnormalização:** Ao contrário dos bancos OLTP, aqui as tabelas são "achatadas". Não criamos uma tabela separada para 'Categoria'; colocamos o nome da categoria diretamente na tabela de 'Produto' para evitar Joins.
+
+### 3. Snowflake Schema (Esquema Floco de Neve)
+Uma variação do Star Schema onde as tabelas de dimensão são normalizadas.
+
+* **Estrutura:** As dimensões se ramificam em sub-dimensões (Ex: A dimensão 'Produto' se conecta a uma dimensão 'Categoria').
+* **Características:**
+    * **Normalização:** Reduz a redundância e economiza espaço de armazenamento.
+    * **Complexidade:** Exige mais JOINS, o que pode impactar a performance e tornar o SQL mais difícil de ler.
+* **Uso Ideal:** Cenários onde o custo de armazenamento é extremamente alto ou quando a hierarquia dos dados é muito complexa.
+
+### 4. SCD (Slowly Changing Dimensions)
+As "Dimensões que Mudam Lentamente" descrevem como o sistema lida com alterações nos atributos das dimensões ao longo do tempo.
+
+* **Tipos Mais Importantes:**
+
+| Tipo | Nome | Funcionamento | Uso Ideal |
+| :--- | :--- | :--- | :--- |
+| **Tipo 0** | Fixo | O valor original é mantido para sempre. Alterações no sistema de origem são ignoradas. | Dados imutáveis como "Data de Nascimento" ou "ID Original". |
+| **Tipo 1** | Sobrescrita | O valor antigo é apagado e o novo é inserido por cima. Perde-se o histórico. | Correção de erros ou quando o histórico não tem valor (Ex: Corrigir erro de grafia). |
+| **Tipo 2** | Histórico por Linha | Cria-se uma nova linha para o registro. Usa-se colunas `data_inicio`, `data_fim` e `versao_atual` (booleano). | **Padrão Ouro.** Essencial quando o histórico importa (Ex: Onde o cliente morava quando fez a compra X?). |
+| **Tipo 3** | Histórico por Coluna | Cria-se uma nova coluna chamada `valor_anterior`. Mantém apenas a versão atual e a imediatamente anterior. | Quando você só precisa comparar o "agora" com o "antes" de forma rápida. |
+| **Tipo 4** | Tabela de Histórico | A tabela principal mantém apenas o dado atual (Tipo 1), mas todas as mudanças são gravadas em uma tabela de "log" separada. | Quando a tabela de dimensão é gigantesca e muda com muita frequência. |
+| **Tipo 6** | Híbrido (1+2+3) | Combina técnicas: usa o Tipo 2 para rastrear histórico, mas também colunas do Tipo 3 para acesso rápido. (2+3+1 = 6). | Relatórios de altíssima complexidade que exigem visão atual e histórica na mesma linha. |
+
+---
+
+### 📊 Comparativo: Star vs. Snowflake
+
+| Característica | Star Schema | Snowflake Schema |
+| :--- | :--- | :--- |
+| **Normalização** | Desnormalizado | Normalizado |
+| **Complexidade de Query** | Baixa (Menos Joins) | Alta (Mais Joins) |
+| **Integridade de Dados** | Menor (Risco de redundância) | Maior (Estrutura rígida) |
+| **Performance de Leitura** | Superior | Inferior |
+
+*Fontes: Microsoft Learn, IBM Architecture, dbt Labs Documentation, The Data Warehouse Toolkit (Kimball).*
+
+---
