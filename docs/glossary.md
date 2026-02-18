@@ -1,4 +1,4 @@
-# 📖 Glossário Técnico: Engenharia de Analytics e MDS
+# 📖 Glossário Técnico
 
 > "A clareza na terminologia é o primeiro passo para uma arquitetura de dados resiliente."
 
