@@ -43,7 +43,7 @@ A modelagem dimensional aplicada neste laboratório segue a **Metodologia Kimbal
 
 
 
-> **Diferencial Técnico:** O uso de chaves estrangeiras (`REFERENCES`) na tabela fato garante a **integridade referencial**, impedindo que uma venda seja registrada para um produto ou cliente inexistente no sistema.
+> **OBS:** O uso de chaves estrangeiras (`REFERENCES`) na tabela fato garante a **integridade referencial**, impedindo que uma venda seja registrada para um produto ou cliente inexistente no sistema.
 
 ---
 
@@ -64,4 +64,5 @@ O desenvolvimento deste ambiente trouxe alguns desafios técnicos:
 * **Solução:** Implementação de um fluxo profissional usando um arquivo `.env` para armazenamento de segredos e um `.env.example` para documentação. O arquivo `.env` foi devidamente ignorado no `.gitignore`, seguindo as melhores práticas de **DevSecOps**.
 
 ### 4. Idempotência no Seed
+
 * **Aprendizado:** O script `seed.sql` foi desenhado com comandos `DROP TABLE IF EXISTS`. Isso garante que o script possa ser rodado múltiplas vezes sem erros, mantendo o ambiente sempre em um estado conhecido e limpo (idempotência).
