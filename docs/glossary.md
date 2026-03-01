@@ -45,6 +45,54 @@ A estrutura abaixo consolida definições técnicas, siglas e conceitos da **Mod
 
 ---
 
+## 🏗️ Infraestrutura e Banco de Dados (Lab 01)
+
+### **Docker & Container**
+Uma plataforma que permite empacotar uma aplicação e todas as suas dependências em um **container** isolado. Garante que o projeto rode da mesma forma em qualquer máquina ("Funciona na minha máquina e na sua").
+
+### **PostgreSQL**
+Sistema de Gerenciamento de Banco de Dados (SGBD) relacional de código aberto, utilizado como nosso *Data Warehouse* para armazenar os dados extraídos.
+
+### **pgAdmin**
+Interface gráfica (GUI) utilizada para gerenciar, visualizar e executar consultas SQL no banco de dados PostgreSQL de forma intuitiva.
+
+### **Persistência de Dados (Volumes)**
+Conceito que garante que os dados salvos dentro de um container Docker não sejam perdidos quando o container é parado ou deletado.
+
+---
+
+## 🐍 Programação e ETL (Lab 02)
+
+### **API (Application Programming Interface)**
+Um conjunto de definições e protocolos que permite que um software (nosso script Python) se comunique com outro (servidores do IBGE ou Banco Central) para solicitar dados.
+
+### **JSON (JavaScript Object Notation)**
+Formato leve de troca de dados, estruturado em chaves e valores, comumente retornado por APIs REST.
+
+### **Pandas**
+A principal biblioteca de Python para manipulação de dados. Utilizada para transformar arquivos JSON em **DataFrames** (tabelas em memória).
+
+### **SQLAlchemy**
+Uma biblioteca de mapeamento objeto-relacional (ORM) que permite ao Python se comunicar com o PostgreSQL de forma eficiente e segura.
+
+---
+
+## 🛡️ Conceitos de Engenharia e Qualidade
+
+### **Atomicidade (Engine.begin)**
+Princípio que garante que uma transação no banco de dados ocorra por completo ou não ocorra nada ("Tudo ou nada"). Evita que o banco receba apenas "metade" dos dados se o script falhar no meio do caminho.
+
+### **Data Sanitization (Limpeza de Dados)**
+O ato de identificar e tratar dados "sujos", como o caractere `..` retornado pelo IBGE, convertendo-os em formatos legíveis para o banco de dados (como `NULL` ou `NaN`).
+
+### **Pivoting (Estratégia)**
+Mudança de direção técnica durante o desenvolvimento. Exemplo: Alternar da API do Banco Central para a do IBGE quando a primeira apresenta instabilidade ou bloqueios.
+
+### **User-Agent**
+Um cabeçalho enviado nas requisições HTTP que identifica qual "cliente" está acessando o servidor. Essencial para evitar bloqueios de segurança (Erro 406) em servidores governamentais.
+
+---
+
 ## 💡 Por que este Glossário é importante?
 
 A estruturação deste documento, apoiada por pesquisas em fontes como **IBM, Databricks e AWS**, garante que o conhecimento adquirido no Módulo Zero da Indicium seja devidamente documentado.
