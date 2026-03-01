@@ -1,0 +1,7 @@
+requests
+pandas
+sqlalchemy
+psycopg2-binary
+python-dotenv
+
+# rode com pip install -r requisitos.txt
