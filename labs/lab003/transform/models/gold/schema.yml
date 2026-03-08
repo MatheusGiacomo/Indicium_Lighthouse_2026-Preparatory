@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: fct_analise_macro
+    description: "Tabela fato que consolida o PIB anual por país e a média de preço do petróleo Brent."
+    columns:
+      - name: country_id
+        description: "Código identificador do país (ex: BRA, USA, CHN)."
+        tests:
+          - not_null
+
+      - name: reference_year
+        description: "Ano de referência dos dados."
+        tests:
+          - not_null
+
+      - name: gdp_usd
+        description: "Valor do PIB em dólares americanos."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: media_petroleo
+        description: "Preço médio anual do barril de petróleo Brent."
+        tests:
+          - not_null

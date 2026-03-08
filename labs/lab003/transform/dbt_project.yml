@@ -1,0 +1,22 @@
+name: 'transform'
+version: '1.0.0'
+
+profile: 'transform'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  transform:
+    gold:
+      +post-hook: 
+        - "DROP TRIGGER IF EXISTS trg_audit_gold ON {{ this }};"
+        - "CREATE TRIGGER trg_audit_gold AFTER INSERT OR UPDATE OR DELETE ON {{ this }} FOR EACH ROW EXECUTE FUNCTION audit.process_audit();"
