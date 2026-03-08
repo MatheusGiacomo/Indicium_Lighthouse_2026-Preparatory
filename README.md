@@ -41,9 +41,9 @@ Demonstrar a evolução técnica nos pilares exigidos pela Indicium:
 
 ## 🛠️ Tecnologias Utilizadas
 - **Linguagens:** SQL, Python.
-- **Ferramentas:** dbt, Docker, PostgreSQL.
+- **Ferramentas:** dbt, Docker, PostgreSQL, Prefect.
 - **Versionamento:** Git & GitHub.
-- **Documentação:** Markdown, Mermaid.js (Diagramas).
+- **Documentação:** Markdown.
 
 ---
 
