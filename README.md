@@ -52,6 +52,7 @@ Demonstrar a evolução técnica nos pilares exigidos pela Indicium:
 - `/sql`: Exercícios práticos resolvidos.
 - `/python`: Protótipos de pipelines de dados.
 - `/dbt`: Estrutura inicial de um projeto de Analytics Engineering.
+- `/labs`: Labs de cada semana do projeto.
 
 ---
 
