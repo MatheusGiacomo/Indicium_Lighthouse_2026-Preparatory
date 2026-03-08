@@ -93,6 +93,43 @@ Um cabeçalho enviado nas requisições HTTP que identifica qual "cliente" está
 
 ---
 
+## 🏗️ Arquitetura e Modelagem (Lab 03)
+
+* **Medallion Architecture:** Padrão de design de dados que organiza os ativos em camadas de qualidade crescente: **Raw** (dados brutos), **Silver** (dados limpos/filtrados) e **Gold** (tabelas de negócio prontas para análise).
+* **Atomic Transactions:** Garantia de que uma operação no banco de dados (como uma carga de dados) ocorre por completo ou não ocorre nada, evitando que o pipeline pare pela metade com dados corrompidos.
+
+---
+
+## 🚀 Orquestração e Observabilidade (Lab 03)
+
+* **Workflow Orchestration (Prefect 3.0):** Ferramenta que coordena a ordem de execução das tarefas, gerencia retentativas em caso de falha e fornece uma interface visual para monitorar a saúde dos dados.
+* **State Handling:** A capacidade do orquestrador de entender se uma tarefa está em estado de *Running*, *Completed* or *Failed*, permitindo automação baseada no status anterior.
+
+---
+
+## 🛠️ Transformação e Governança (dbt) (Lab 03)
+
+* **dbt Hooks (Post-Hooks):** Comandos SQL executados automaticamente pelo dbt logo após a criação de um modelo. Usamos para reinstalar as *Triggers* de Auditoria toda vez que uma tabela Gold é recriada.
+* **Lineage Graph:** Representação visual (grafo) que mostra a jornada do dado desde a fonte original até o dashboard final, facilitando a análise de impacto.
+* **Referential Integrity Tests:** Testes automatizados que garantem que as relações entre tabelas (ex: ID de país na tabela de PIB vs. tabela de Petróleo) sejam válidas e consistentes.
+
+---
+
+## 🛡️ Segurança e Infraestrutura (Lab 03)
+
+* **RBAC (Role-Based Access Control):** Estratégia de segurança que limita o acesso ao banco de dados com base na função do usuário (ex: o dashboard só lê, enquanto o orquestrador pode escrever).
+* **Audit Triggers:** Mecanismos automáticos no PostgreSQL que "vigiam" tabelas críticas e registram qualquer tentativa de alteração manual em um log de segurança persistente.
+* **Docker Volumes:** Técnica de persistência que garante que os dados do banco e os logs de auditoria não desapareçam quando o container é desligado ou atualizado.
+
+---
+
+## 🔧 Resiliência e Troubleshooting (Lab 03)
+
+* **Environment Agnosticism:** Configuração que permite que o código identifique o caminho do executável do Python e do dbt dinamicamente dentro do `.venv`, independente de onde o projeto esteja instalado.
+* **Unicode/Encoding Handling:** Tratamento de caracteres especiais em logs para evitar que símbolos ou emojis interrompam a execução do pipeline em sistemas operacionais específicos (como o Windows).
+
+---
+
 ## 💡 Por que este Glossário é importante?
 
 A estruturação deste documento, apoiada por pesquisas em fontes como **IBM, Databricks e AWS**, garante que o conhecimento adquirido no Módulo Zero da Indicium seja devidamente documentado.
