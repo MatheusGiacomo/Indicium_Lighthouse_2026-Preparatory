@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw_zone
+    schema: raw
+    description: "Dados brutos ingeridos via Python (Yahoo Finance e World Bank)"
+    tables:
+      - name: market_commodities
+        description: "Preços diários de commodities e índices"
+      - name: world_bank_gdp
+        description: "Dados de PIB per capita por país e ano"

@@ -1,0 +1,13 @@
+# transform/profiles.yml
+transform:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      port: 5433
+      dbname: "{{ env_var('POSTGRES_DB') }}"
+      schema: public
+      threads: 4
